@@ -10,7 +10,13 @@ public interface UserService {
 
     public List<UserEntity> fetchUserList();
 
-    public UserEntity fetchUserById(Long userId);
+    public List<UserEntity> fetchUserById(Long userId);
 
     public void deleteUserById(Long userId);
+
+    public List<UserEntity> fetchUsersByGroup(String userGroup);
+
+    public void updateBalance(Long amount, Long userId);
+
+    public void deleteUsersByGroup(String userGroup);
 }
