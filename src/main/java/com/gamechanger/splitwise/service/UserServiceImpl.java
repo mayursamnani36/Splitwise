@@ -31,39 +31,8 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> optionalUserEntity = userRepository.findById(userId);
         return optionalUserEntity.map(Collections::singletonList).orElse(Collections.emptyList());
     }
-
-    @Override
-    public List<UserEntity> fetchUsersByGroup(String userGroup) {
-        return userRepository.findByGroupName(userGroup);
-    }
-
     @Override
     public void deleteUserById(Long userId) {
         userRepository.deleteById(userId);
     }
-
-    @Override
-    public void deleteUsersByGroup(String userGroup) {
-        userRepository.deleteByGroupName(userGroup);
-    }
-
-    @Override
-    public void updateBalance(Long amount, Long userId) {
-        UserEntity user = userRepository.findById(userId).get();
-        String userGroup = user.getGroupName();
-        List<UserEntity> usersWithSameGroup = userRepository.findByGroupName(userGroup);
-        Long groupSize = (long) usersWithSameGroup.size();
-        Long amountPerHead = amount / groupSize;
-        for (UserEntity person : usersWithSameGroup) {
-            Long curBalance = person.getBalance();
-            if (person.getId() == userId) {
-                curBalance += (amount - amountPerHead);
-                person.setBalance(curBalance);
-            } else {
-                curBalance -= amountPerHead;
-                person.setBalance(curBalance);
-            }
-        }
-    }
-
 }

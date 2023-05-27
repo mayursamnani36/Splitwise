@@ -12,18 +12,4 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    public List<UserEntity> findByGroupName(String userGroup);
-
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM UserEntity u WHERE u.groupName = :groupName")
-    void deleteByGroupName(@Param("groupName") String groupName);
-
-//    @Transactional
-//    public default void deleteByGroupName(String groupName) {
-//        Query query = entityManager.createQuery("DELETE FROM User u WHERE u.groupName = :groupName");
-//        query.setParameter("groupName", groupName);
-//        query.executeUpdate();
-//    }
 }
