@@ -5,6 +5,6 @@ public final class SplitwiseConstants {
     public static final String ID = "id";
     public static final String GROUP = "/groups";
     public static final String USER_DELETED = "User Deleted";
-    public static final String GROUP_DELETED = "Group Deleted";
     public static final String INVALID_PATH_PARAM = "Invalid Path Param Provided";
+    public static final String ADD_USER = "/groups/adduser";
 }

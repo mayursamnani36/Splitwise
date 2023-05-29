@@ -1,32 +1,41 @@
 package com.gamechanger.splitwise.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gamechanger.splitwise.entity.GroupEntity;
-import com.gamechanger.splitwise.service.GroupServiceImpl;
+import com.gamechanger.splitwise.service.GroupService;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gamechanger.splitwise.constants.SplitwiseConstants.GROUP;
+import static com.gamechanger.splitwise.constants.SplitwiseConstants.*;
+import static com.gamechanger.splitwise.constants.SplitwiseConstants.ID;
 
 @RestController
 public class GroupController {
 
     @Autowired
-    GroupServiceImpl groupService;
+    GroupService groupService;
 
     @PostMapping(GROUP)
-
-    public GroupEntity saveGroup(@RequestBody GroupEntity group){
-//        List<AbstractMap.SimpleEntry<Long,Long>> emptyList = new ArrayList<>();
+    public GroupEntity saveGroup(@RequestBody GroupEntity group) {
         List<Pair<Long, Long>> emptyList = new ArrayList<>();
         group.setUserBalanceList(emptyList);
         return groupService.saveGroup(group);
     }
 
+    @GetMapping(GROUP)
+    public List<GroupEntity> fetch(
+            @RequestParam(value = ID, required = false, defaultValue = "-1") Long groupId
+    ) {
+        if(groupId!=-1){return groupService.fetchGroupById(groupId);}
+        else{return groupService.fetchGroupList();}
+    }
+
+    @PostMapping(ADD_USER)
+    public String addUserToGroup(@RequestBody String jsonString) throws JsonProcessingException {
+        return groupService.addUserToGroup(jsonString);
+    }
 }
